@@ -301,4 +301,153 @@ type CountryNumberCodes = {
 };
 ```
 
+## 열거형 타입 (Enumerable Type)
 
+- 여러개의 값에 이름을 부여해서 나열
+
+- js에 없고 ts에만 존재
+
+- #### enum은 컴파일 결과 객체가 됨
+
+### 숫자형 enum
+
+```ts
+// enum 타입
+// 여러가지 값들에 각각 이름을 부여해 열거해두고 사용하는 타입
+
+enum Role {
+  ADMIN = 0, // 숫자할당 없어도 자동으로 값 할당 ㅇ
+  USER = 1,
+  GUEST = 2,
+}
+
+const user1 = {
+  name: "이정환",
+  role: Role.ADMIN, //관리자
+};
+
+const user2 = {
+  name: "홍길동",
+  role: Role.USER, // 회원
+};
+
+const user3 = {
+  name: "아무개",
+  role: Role.GUEST, // 게스트
+};
+
+```
+
+### 문자열 enum
+
+```ts
+enum Role {
+  ADMIN,
+  USER,
+  GUEST,
+}
+
+enum Language {
+  korean = "ko",
+  english = "en",
+}
+
+const user1 = {
+  name: "이정환",
+  role: Role.ADMIN, // 0
+  language: Language.korean,// "ko"
+};
+
+```
+
+
+## Any와 Unknown 타입
+
+### Any
+
+- 특정 변수의 타입을 확실히 모를 때 사용 `:any`
+
+- 타입 검사를 안함 -> so, any 사용 지양
+
+```ts
+let anyVar: any = 10;
+anyVar = "hello";
+
+let num: number = 10;
+num = anyVar;
+
+```
+### Unknown
+
+- `:unknown`
+
+- 모든 값을 저장 가능, but, Unknown 값에 값을 넣을 수 없음
+
+```ts
+let num: number = 10;
+(...)
+
+let unknownVar: unknown;
+unknownVar = "";
+unknownVar = 1;
+unknownVar = () => {};
+
+num = unknownVar; // 오류 !
+
+if (typeof unknownVar === "number") {
+	// 이 조건이 참이된다면 unknownVar는 number 타입으로 볼 수 있음
+  unknownVar * 2;
+}
+```
+## Void와 Never 타입
+
+### Void
+
+- 아무 값도 담을 수 없음
+
+- 리턴문 반환하지 않는 함수에서 사용
+
+```ts
+// 아무런 값도 반환하지 않는 함수의 반환값 타입을 정의
+function func2(): void {
+  console.log("hello");
+}
+
+```
+
+- but, `tsconfig.json`에서 `"strictNullChecks: false"` void 타입에 null값 담기 가능
+
+```ts
+// "strictNullChecks: false" 일 경우
+let a: void;
+a = undefined;
+a = null; // "strictNullChecks: false" 경우 가능
+```
+
+### Never
+
+- 함수가 어떠한 값도 반환할 수 없는 상황일 때, 해당 함수의 반환값 타입을 정의할 때 사용
+
+- null, undefind도 담기 x
+
+```ts
+// 무한 루프여서 반환 불가능
+function func3(): never {
+  while (true) {}
+}
+
+//  의도적으로 오류를 발생시키는 함수에도 사용
+function func4(): never {
+  throw new Error();
+}
+
+// any를 포함해 그 어떠한 타입의 값도 이 변수에 담을 수 없음
+let anyVar: any;
+(...)
+
+let a: never;
+a = 1;
+a = null;
+a = undefined;
+a = anyVar;
+```
