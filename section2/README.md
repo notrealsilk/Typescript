@@ -4,7 +4,7 @@
 
 : ts의 내장 타입 (기본적으로 제공)
 
-## TS 환경 세팅
+## 0. TS 환경 세팅
 
 #### Node.js 패키지를 초기화
 
@@ -77,7 +77,7 @@ ESNext는 최신 자바스크립트를 의미함
 }
 ```
 
-## 원시타입과 리터럴타입
+## 1. 원시타입과 리터럴타입
 
 - 원시 타입 : 1가지 값만 저장
 
@@ -121,7 +121,7 @@ let num1: number = 123;
 let numA: 10 = 10;
 ```
 
-## 배열과 튜플
+## 2. 배열과 튜플
 
 ### 배열
 
@@ -170,7 +170,7 @@ const users: [string, number][] = [
 ];
 ```
 
-## 객체
+## 3. 객체
 
 ### 객체 타입 정의 (2)
 
@@ -237,7 +237,7 @@ let user: {
 user.name = "dskfd"; // 오류 발생
 ```
 
-## 타입 별칭과 인덱스 시그니처
+## 4. 타입 별칭과 인덱스 시그니처
 
 ### 타입 별칭
 
@@ -301,7 +301,7 @@ type CountryNumberCodes = {
 };
 ```
 
-## 열거형 타입 (Enumerable Type)
+## 5. 열거형 타입 (Enumerable Type)
 
 - 여러개의 값에 이름을 부여해서 나열
 
@@ -361,7 +361,7 @@ const user1 = {
 ```
 
 
-## Any와 Unknown 타입
+## 6. Any와 Unknown 타입
 
 ### Any
 
@@ -399,7 +399,7 @@ if (typeof unknownVar === "number") {
   unknownVar * 2;
 }
 ```
-## Void와 Never 타입
+## 7. Void와 Never 타입
 
 ### Void
 
