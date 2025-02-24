@@ -182,18 +182,125 @@ func(programmingBook);
 
 ## 4. 대수 타입
 
-```ts
+- 여러 개의 타입을 합성해서 새롭게 만들어낸 타입
 
+### 합집합 타입
+
+- 기본
+
+```ts
+// 합집합 타입 - Union 타입
+
+// 기본
+let a: string | number | boolean;
+
+a = 1;
+a = "hello";
+a = true;
+
+// 배열
+let arr: (number | string | boolean)[] = [1, "hello", true];
+```
+
+- 객체 
+
+![alt text](img/image.png)
+
+```ts
+type Dog = {
+  name: string;
+  color: string;
+};
+
+type Person = {
+  name: string;
+  language: string;
+};
+
+type Union1 = Dog | Person;
+
+/////////////////////////////
+
+let union1: Union1 = { // ✅
+  name: "",
+  color: "",
+};
+
+let union2: Union1 = { // ✅
+  name: "",
+  language: "",
+};
+
+let union3: Union1 = { // ✅
+  name: "",
+  color: "",
+  language: "",
+};
+
+
+let union4: Union1 = { // ❌ -> 어디에도 포함안됨
+  name: "",
+};
+```
+
+### 교집합 타입
+
+- 기본
+
+```ts
+let variable: number & string; 
+// never 타입으로 추론된다
+```
+
+- 객체
+
+```ts
+let intersection1: Intersection = {
+  name: "",
+  color: "",
+  language: "", // 1개 라도 빠지면 에러 ㅇ
+};
 ```
 
 ## 5. 타입 추론
 
-```ts
+- 타입스크립트는 `변수의 초기값`을 기준으로 자동으로 타입을 추론해줌
 
+- 단, 함수의 매개변수는 타입 추론 x -> 정의해줘야 ㅇ
+
+### 주의 사항 (2)
+
+#### Any 타입의 진화
+
+```ts
+let d; // 암시적인 any 타입
+d = 10; // number
+d.toFixed(); // number
+
+d = "hello"; // string
+d.toUpperCase(); // string
+d.toFixed(); // 오류 
 ```
 
-```ts
+#### const 상수의 추론
 
+- const -> Literal 타입(가장 좁은 타입으로 추론)으로 추론
+
+```ts
+const num = 10;
+// 10 Number Literal 타입으로 추론
+
+const str = "hello";
+// "hello" String Literal 타입으로 추론
+```
+
+### 최적 공통 타입
+
+- 최적의 공통 타입으로 추론
+
+``` ts
+let arr = [1, "string"];
+// (string | number)[] 타입으로 추론
 ```
 
 ## 6. 타입 단언
