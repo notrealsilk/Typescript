@@ -305,13 +305,98 @@ let arr = [1, "string"];
 
 ## 6. 타입 단언
 
+- 컴파일러에게 특정 값이 특정 타입임을 명시적으로 알려주는 문법
+
+- `A as B`
+
+  - A가 B의 슈퍼타입(Supertype)
+
+  - A가 B의 서브타입(Subtype) 
+
+### 기본
+
 ```ts
+let num1 = 10 as never;   // 가능 (number가 never의 슈퍼타입)
+let num2 = 10 as unknown; // 가능 (unknown이 모든 타입의 슈퍼타입)
+```
+
+### const 단언 (Const Assertion)
+
+``` ts
+let num4 = 10 as const; // num4의 타입이 '10' (리터럴 타입)이 됨
+
+let cat = {
+  name: "야옹이",
+  color: "yellow",
+} as const;
+
+// cat.name = ''  // ❌ 오류 발생 (읽기 전용 속성이므로 변경 불가)
 
 ```
 
-## 7. 타입 좁히기
+### Non-null 단언
+
+- 변수가 null 또는 undefined가 아님을 컴파일러에게 확신시킬 때 사용
+
+- ! (느낌표) 연산자
 
 ```ts
+type Post = {
+  title: string;
+  author?: string; // author 속성은 선택적(optional)
+};
+
+let post: Post = {
+  title: "게시글1",
+};
+
+const len: number = post.author!.length;
+
+```
+
+
+## 7. 타입 좁히기
+
+- 조건문 등을 활용하여 넓은 타입을 더 구체적인 좁은 타입으로 한정
+
+### typeof를 활용한 타입 좁히기
+
+```ts
+function func(value: number | string | Date | null | Person) {
+  if (typeof value === "number") {
+    console.log(value.toFixed()); // number 타입이므로 toFixed() 사용 가능
+  } else if (typeof value === "string") {
+    console.log(value.toUpperCase()); // string 타입이므로 toUpperCase() 사용 가능
+  }
+}
+
+```
+
+### instanceof를 활용한 타입 좁히기
+
+- 객체가 특정 생성자의 인스턴스인지 확인
+
+```ts
+else if (value instanceof Date) {
+  console.log(value.getTime()); // Date 객체이므로 getTime() 사용 가능
+}
+
+```
+
+### in 연산자를 활용한 타입 좁히기
+
+- 객체에 특정 속성이 존재하는지 확인
+
+- ⚠️ null을 체크하지 않으면 in 연산자 사용 시 에러가 발생할 수 있으므로 value &&를 추가
+
+```ts
+else if (value && "age" in value) {
+  console.log(`${value.name}은 ${value.age}살 입니다`);
+}
+
+// "age" in value를 통해 value가 Person 타입인지 확인
+
+// value.name, value.age 속성을 안전하게 사용할 수 있음
 
 ```
 
