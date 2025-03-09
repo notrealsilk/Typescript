@@ -12,12 +12,13 @@ function func(a: number, b: number) {
 /**
  * 화살표 함수의 타입을 정의하는 방법
  */
-
+// 타입 명시 안해도 기본값을 기준으로 메개변수 타입 추론 ㅇ
 const add = (a: number, b: number) => a + b;
 
 /**
  * 함수의 매개변수
  */
+// 필수 매개변수 뒤에 선택적 매개변수`?`사용
 
 function introduce(name = "이정환", age: number, tall?: number) {
   console.log(`name : ${name}`);
