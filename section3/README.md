@@ -402,6 +402,66 @@ else if (value && "age" in value) {
 
 ## 8. 서로소 유니온 타입
 
+- 교집합이 x는 타입들로만 만든 유니온 타입을 말함
+
+- 타입좁히기 더 쉽게하기
+
+- `tag` 사용 -> switch-case 타입 문법사용해서 타입 좁히기 가능
+
+### 1) 사용자 역할 구분 (tag 사용)
 ```ts
+type Admin = { tag: "ADMIN"; name: string; kickCount: number };
+type Member = { tag: "MEMBER"; name: string; point: number };
+type Guest = { tag: "GUEST"; name: string; visitCount: number };
+
+type User = Admin | Member | Guest;
+
+function login(user: User) {
+  switch (user.tag) {
+    case "ADMIN":
+      console.log(`${user.name}님, ${user.kickCount}명 강퇴했습니다.`);
+      break;
+    case "MEMBER":
+      console.log(`${user.name}님, ${user.point}포인트 보유 중`);
+      break;
+    case "GUEST":
+      console.log(`${user.name}님, ${user.visitCount}번 방문`);
+      break;
+  }
+}
+
+```
+
+2) 비동기 작업 상태 관리 (state 사용)
+
+```ts
+type LoadingTask = { state: "LOADING" };
+type FailedTask = { state: "FAILED"; error: { message: string } };
+type SuccessTask = { state: "SUCCESS"; response: { data: string } };
+
+type AsyncTask = LoadingTask | FailedTask | SuccessTask;
+
+function processResult(task: AsyncTask) {
+  switch (task.state) {
+    case "LOADING":
+      console.log("로딩 중...");
+      break;
+    case "FAILED":
+      console.log(`에러 발생: ${task.error.message}`);
+      break;
+    case "SUCCESS":
+      console.log(`성공: ${task.response.data}`);
+      break;
+  }
+}
+
+```
+
+3) 함수 타입 정의 시 객체 타입 또는 화살표 함수 형태로 선언
+
+```ts
+type Call = { (value: number): void };
+type Call2 = (value: number) => void;
+const call: Call2 = (value) => {};
 
 ```

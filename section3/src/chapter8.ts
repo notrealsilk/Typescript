@@ -3,6 +3,7 @@
  * 교집합이 없는 타입들로만 만든 유니온 타입을 말함
  */
 
+// tag라는 속성을 가진 객체를 만들어서 타입을 구분
 type Admin = {
   tag: "ADMIN";
   name: string;
