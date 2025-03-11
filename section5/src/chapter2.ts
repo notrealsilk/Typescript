@@ -1,5 +1,7 @@
 /**
  * 선언 합침
+ * 동일한 인터페이스 2개 정의해도 오류 x(= 중복선언 시,모든 선언이 합쳐짐)
+ * 모듈 보강 시 사용
  */
 
 interface Person {
@@ -7,7 +9,7 @@ interface Person {
 }
 
 interface Person {
-  name: string;
+  name: string; // 중복선언 (타입이 같아야함) 
   age: number;
 }
 
