@@ -14,10 +14,13 @@ type Cat = {
 
 type Animal = Dog | Cat;
 
+// 객체가 Dog인지 구분하는 함수
+// animal is Dog는 타입 단언 ```(animal as Dog)```을 사용하여 타입을 강제로 Dog로 변환
 function isDog(animal: Animal): animal is Dog {
-  return (animal as Dog).isBark !== undefined;
+  return (animal as Dog).isBark !== undefined; // 여기서 타입단언
 }
 
+// 객체가 Cat인지 구분하는 함수
 function isCat(animal: Animal): animal is Cat {
   return (animal as Cat).isScratch !== undefined;
 }
