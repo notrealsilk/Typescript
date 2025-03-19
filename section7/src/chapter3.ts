@@ -7,6 +7,7 @@ interface KeyPair<K, V> {
   value: V;
 }
 
+// 타입으로 정의할 값을 <>로 할당해야 ㅇ 
 let keyPair: KeyPair<string, number> = {
   key: "key",
   value: 0,
@@ -60,6 +61,7 @@ let stringMap2: Map2<string> = {
  * -> 유저 구분 : 학생 유저 / 개발자 유저
  */
 
+// ✔ User<T>를 사용하여 학생과 개발자 프로필을 동적으로 설정 가능
 interface Student {
   type: "student";
   school: string;
@@ -75,6 +77,10 @@ interface User<T> {
   profile: T;
 }
 
+
+// 🔹 제네릭을 활용한 함수
+// ✔ User<Student> 타입만 허용하여 학생만 등교 가능
+// ✔ Developer 타입을 전달하면 오류 발생
 function goToSchool(user: User<Student>) {
   const school = user.profile.school;
   console.log(`${school}로 등교 완료`);
@@ -82,6 +88,9 @@ function goToSchool(user: User<Student>) {
 
 // goToSchool(developerUser);
 
+// 🔹 유저 객체 생성
+// ✔ User<Student> → school 속성이 필요
+// ✔ User<Developer> → skill 속성이 필요
 const developerUser: User<Developer> = {
   name: "이정환",
   profile: {
