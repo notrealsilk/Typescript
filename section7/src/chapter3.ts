@@ -62,6 +62,7 @@ let stringMap2: Map2<string> = {
  */
 
 // ✔ User<T>를 사용하여 학생과 개발자 프로필을 동적으로 설정 가능
+// Student와 Developer는 서로소 유니언
 interface Student {
   type: "student";
   school: string;
@@ -72,6 +73,7 @@ interface Developer {
   skill: string;
 }
 
+// 제네릭 인터페이스
 interface User<T> {
   name: string;
   profile: T;
