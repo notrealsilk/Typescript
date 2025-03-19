@@ -114,9 +114,89 @@ getLength({ length: 1 }); // ✅ OK (객체에 length 속성이 있음)
 
 ## 3. map, forEach 메서드 타입 정의하기
 
-### 1)
+### 1) map 메서드 구현
+
+🔹 map의 역할
+✔ 배열의 각 요소를 콜백 함수의 결과로 변환하여 새로운 배열을 생성
+✔ 원본 배열은 변경되지 않음
+
+🔹 기본적인 map 사용 예제
+```ts
+const arr = [1, 2, 3];
+const newArr = arr.map((it) => it * 2);
+// 결과: [2, 4, 6]
+
+// 배열 [1, 2, 3]의 각 요소를 * 2 연산하여 [2, 4, 6]으로 변환 ✅
+```
+
+🔹 제네릭을 활용한 map 메서드 구현
+
+✔ 제네릭 <T, U> 사용
+
+T: 원본 배열 요소의 타입
+U: 변환된 배열 요소의 타입
+✔ 콜백 함수 (item: T) => U 사용
+
+T 타입의 item을 받아서 U 타입으로 변환
+```ts
+function map<T, U>(arr: T[], callback: (item: T) => U): U[] {
+  let result: U[] = [];
+  for (let i = 0; i < arr.length; i++) {
+    result.push(callback(arr[i]));
+  }
+  return result;
+}
+
+```
+
+🔹 map 사용 예제
+✔ 숫자 배열을 변환할 때 정상 동작
+✔ 문자열을 숫자로 변환하려 하면 NaN이 발생할 수 있으므로 주의해야 함
+```ts
+map(arr, (it) => it * 2);  // ✅ [2, 4, 6] (number → number)
+map(["hi", "hello"], (it) => parseInt(it)); // ✅ ["hi", "hello"] → [NaN, NaN]
+
+```
+
+### 2) forEach 메서드 구현
+
+🔹 forEach의 역할
+✔ 배열의 각 요소에 대해 콜백 함수를 실행
+✔ 반환값 없음 (void)
+✔ 배열을 변환하지 않음
+
+🔹 기본적인 forEach 사용 예제
+배열 [1, 2, 3]의 요소를 하나씩 출력 ✅
+```ts
+const arr2 = [1, 2, 3];
+arr2.forEach((it) => console.log(it));
+
+```
+
+🔹 제네릭을 활용한 forEach 메서드 구현
+✔ 제네릭 <T> 사용 → 배열 요소의 타입을 유동적으로 받음
+✔ 콜백 함수 (item: T) => void → 반환값 없음
+```ts
+function forEach<T>(arr: T[], callback: (item: T) => void): void {
+  for (let i = 0; i < arr.length; i++) {
+    callback(arr[i]);
+  }
+}
+
+```
+
+🔹 forEach 사용 예제
+✔ 숫자 배열에서 .toFixed()를 사용할 수 있음
+✔ 문자열 배열에서는 it을 그대로 출력 가능
 
 ```ts
+forEach(arr2, (it) => {
+  console.log(it.toFixed()); // ✅ 숫자 타입에서 정상 동작
+});
+
+forEach(["123", "456"], (it) => {
+  console.log(it); // ✅ 문자열에서 정상 동작
+});
 
 ```
 
