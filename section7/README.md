@@ -245,7 +245,6 @@ let numberMap1: NumberMap = {
 
 ```
 🔹 제네릭을 활용한 인덱스 시그니처
-
 ✔ 제네릭 <V>를 사용하여 값의 타입을 자유롭게 변경 가능
 ```ts
 interface Map<V> {
@@ -297,7 +296,10 @@ let stringMap2: Map2<string> = {
 ✔ print() → 현재 리스트 출력
 
 ```ts
+// 클래스
+// 제네릭 클래스<>로 범용적으로 사용가능하게 ㅇ
 class List<T> {
+  // 생성자
   constructor(private list: T[]) {}
 
   push(data: T) {
@@ -352,6 +354,8 @@ stringList.push("hello"); // ✅ 문자열 추가 가능
 ✔ reject → 작업 실패 시 오류 반환
 ✔ .then(), .catch(), .finally()를 사용해 비동기 처리 가능
 
+- 프로미스는 타입 추론 x -> so, 제너릭 인터페이스 사용!
+
 - new Promise<number> → 이 프로미스는 number 타입의 값을 반환
 ```ts
 const promise = new Promise<number>((resolve, reject) => {
@@ -398,6 +402,8 @@ interface Post {
 🔹 프로미스를 반환하는 함수
 ✔ fetchPost(): Promise<Post> → Post 타입을 반환하는 프로미스
 ✔ resolve({ id, title, content }) → 성공 시 Post 타입의 객체 반환
+
+- 반환값 타입 직접 정의한느걸 추천
 ```ts
 function fetchPost(): Promise<Post> {
   return new Promise<Post>((resolve, reject) => {
