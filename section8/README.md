@@ -7,7 +7,7 @@
 
 - 객체 또는 배열, 튜플에서 특정 요소의 타입을 가져올 때 사용하는 타입스크립트 문법
 
-✔ 객체 속성의 타입을 동적으로 추출 가능
+✔ 객체 속성의 타입을 동적으로 `추출` 가능
 ✔ 배열/튜플의 요소 타입을 가져올 수 있음
 ✔ 타입 안전성을 높이는 데 유용
 
@@ -23,12 +23,14 @@ type PostList = {
     age: number;
   };
 }[];
-
+// 포스트타입을 여러 개 저장 -> [] 추가
 ```
 ✅ PostList[number] → 배열의 요소(Post 객체)의 타입을 가져옴
 ✅ PostList[number]["author"] → Post 객체의 author 속성 타입을 가져옴
 
 ```ts
+// 작성자를 매개변수로 받음
+// 뽑고 싶은 객체 타입을 [] `인덱스` 로 떼어냄
 function printAuthorInfo(author: PostList[number]["author"]) {
   console.log(`${author.name}-${author.id}`);
 ```
@@ -51,6 +53,7 @@ printAuthorInfo(post.author);
 
 ```
 ✅ PostList[0] → PostList 배열의 첫 번째 요소(Post 객체)의 타입을 가져옴
+- 주의 `0`(= 인덱스) 은 타입임
 
 
 ### 3) 튜플에서 인덱스드 엑세스 타입 사용
@@ -70,6 +73,7 @@ type Tup2 = Tup[2]; // boolean
 ✔ Tup[1] → string
 ✔ Tup[2] → boolean
 
+
 ### 4) 튜플에서 모든 요소의 타입 가져오기
 
 ```ts
@@ -81,7 +85,9 @@ type TupNum = Tup[number]; // number | string | boolean
 
 ## 3. keyof 연산자
 
-- keyof 연산자는 객체 타입에서 모든 키의 유니온 타입을 추출하는 연산자
+- keyof 연산자는 `객체 타입`에서 모든 키의 유니온 타입을 추출하는 연산자
+
+- 반드시 뒤에 타입이 와야함
 
 ✔ 객체의 키를 안전하게 참조할 수 있도록 도와줌
 ✔ 동적 속성 접근을 타입 안전하게 처리 가능
@@ -132,7 +138,7 @@ console.log(personKeys); // ["name", "age"]
 
 ## 4. 맵드 타입
 
-- 객체 타입의 속성을 동적으로 변환하여 새로운 타입을 생성하는 기능
+- `객체 타입`의 속성을 동적으로 변환하여 `새로운 타입을 생성`하는 기능
 
 ✔ keyof를 활용해 기존 타입의 속성을 변형 가능
 ✔ 속성을 선택적으로 만들거나(Partial), 읽기 전용(Readonly)으로 변경 가능
@@ -151,6 +157,8 @@ interface User {
 ✅ User 인터페이스에서 속성을 변형하여 새로운 타입을 생성
 
 🔹 선택적 속성 타입 (Partial<T>)
+
+- 키 값으로 들어올 수 있는 타입을 유니언으로 정의
 
 ```ts
 type PartialUser = {
@@ -173,6 +181,8 @@ updateUser({ age: 25 }); // ✅ 일부 속성만 전달 가능
 
 
 🔹 모든 속성을 boolean으로 변환
+
+- `keyof ` = `[key in "id" | "name" | "age"]` 라고 생각해도 ㅇ
 
 ```ts
 type BooleanUser = {
@@ -215,8 +225,10 @@ const user = fetchUser();
 ```
 ✔ 불변(Immutable) 객체를 만들 때 사용
 
+
 ## 5. 템플릿 리터럴 타입
-- 문자열을 조합하여 새로운 타입을 동적으로 생성할 수 있는 기능
+
+- `문자열`을 조합하여 `새로운 타입`을 동적으로 생성할 수 있는 기능
 
 ✔ 타입의 조합을 유연하게 생성 가능
 ✔ 반복되는 문자열 패턴을 줄이고, 타입을 더 정교하게 설정할 수 있음
@@ -238,53 +250,3 @@ const myPet: ColoredAnimal = "red-dog"; // ✅ 정상
 
 ```
 ✔ 템플릿 리터럴 타입을 사용하면 문자열 타입을 동적으로 조합 가능
-
-### 2) 조건부 타입 (Conditional Type)
-
-```ts
-// 조건부 타입: 타입을 조건에 따라 다르게 설정하는 기능
-type IsString<T> = T extends string ? "문자열" : "문자열 아님";
-
-type Test1 = IsString<string>;  // "문자열"
-type Test2 = IsString<number>;  // "문자열 아님"
-
-// ✅ T extends string ? → T가 string이면 "문자열", 아니면 "문자열 아님"을 반환
-```
-✔ 제네릭과 함께 사용하면 더욱 강력함
-✔ 유연한 타입 변환이 가능하여 활용도가 높음
-
-### 3) 맵드 타입과 조건부 타입 활용
-
-```ts
-// 기본 User 타입 정의
-type User = {
-  id: number;
-  name: string;
-  age: number;
-};
-
-// ✅ User 타입을 변형하는 여러 맵드 타입
-
-// 선택적 속성 타입 (Partial<T>)
-type PartialUser = {
-  [key in keyof User]?: User[key];
-};
-
-// ✅ 모든 속성을 선택적(?)으로 변경
-
-// 읽기 전용 속성 (Readonly<T>)
-type ReadonlyUser = {
-  readonly [key in keyof User]: User[key];
-};
-
-// ✅ 모든 속성을 읽기 전용(readonly)으로 변환
-
-// boolean 값으로 변환
-type BoolUser = {
-  [key in keyof User]: boolean;
-};
-
-// ✅ User의 속성을 모두 boolean으로 변환
-
-
-```
