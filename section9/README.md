@@ -2,6 +2,8 @@
 
 ## 1. 조건부 타입 소개
 
+- 삼항 연산자로 조건에 따라 타입 결정
+
 ### 1) 조건부 타입 (Conditional Type)
 
 ```ts
@@ -29,6 +31,7 @@ type B = ObjB extends ObjA ? number : string;
 
 ```ts
 // 제네릭과 조건부 타입을 결합하여 특정 타입에 따라 변환
+// - <T> : 타입 변수
 type StringNumberSwitch<T> = T extends number ? string : number;
 
 let varA: StringNumberSwitch<number>; // ✅ varA의 타입은 string
@@ -66,15 +69,21 @@ let result2 = removeSpaces(undefined); // result2의 타입은 undefined
 
 ### 1) 분산적인 조건부 타입 (Distributive Conditional Type)
 
+- 
+
 ```ts
 // 분산적인 조건부 타입 예제
 type StringNumberSwitch<T> = [T] extends [number] ? string : number;
 
 let a: StringNumberSwitch<number>;  // string
-let b: StringNumberSwitch<string>;  // number
+let b: StringNumberSwitch<string>;  // number..T가 숫자 타입이 됨
+
+// 분산적인 조건부 
+// 문자열, 숫자형 타입으로 모두 평가하고 유니언으로 묶이는 것
 let c: StringNumberSwitch<number | string>; 
 // (StringNumberSwitch<number> | StringNumberSwitch<string>) → string | number
 
+//
 let d: StringNumberSwitch<boolean | number | string>;
 // 1단계: 개별적으로 평가
 // StringNumberSwitch<boolean> | StringNumberSwitch<number> | StringNumberSwitch<string>
@@ -85,8 +94,10 @@ let d: StringNumberSwitch<boolean | number | string>;
 // 결과적으로 number | string
 
 ```
-✔ T가 유니온 타입(number | string)일 경우, 각 타입을 개별적으로 조건에 적용한 후 결과를 합침
+✔ T가 유니온 타입(number | string)일 경우, `각 타입을 개별적으로 조건에 적용`한 후 `결과를 합침`
+
 ✔ StringNumberSwitch<number | string> → StringNumberSwitch<number> | StringNumberSwitch<string>
+
 ✔ 결과적으로 number | string 이 됨
 
 ### 2) 실용적인 예제 - Exclude<T, U>
@@ -103,10 +114,12 @@ type A = Exclude<number | string | boolean, string>;
 // number | never | boolean
 
 // 최종 결과
+// 유니언 타입에 never(공집합이므로 number타입에 합쳐져서)에 있으면 사라짐
 // number | boolean
 
 ```
 ✔ Exclude<T, U>는 T에서 U에 해당하는 타입을 제거하는 역할
+
 ✔ Exclude<number | string | boolean, string> → number | boolean
 
 ```ts
@@ -116,12 +129,17 @@ type B = Exclude<"a" | "b" | "c", "b">;
 ```
 ✔ "b"가 제외되고 "a" | "c" 만 남음
 
+
+
 ## 3. infer - 조건부 타입 내에서 타입 추론하기
 
 ### 1) infer 키워드란?
 - infer는 조건부 타입 내부에서 타입을 추론하는 기능을 제공하는 키워드
 
+- 특정 타입만 추론 가능
+
 ✔ extends 조건문 내에서 특정 타입을 추론할 때 사용
+
 ✔ 제네릭을 활용하여 함수의 반환 타입, 프로미스 결과 타입 등을 추출 가능
 
 
@@ -157,4 +175,3 @@ type PromiseB = PromiseUnpack<Promise<string>>; // string
 ✔ infer R → Promise<T> 내부의 T를 추출
 ✔ Promise<number>이면 number를 반환
 ✔ Promise<string>이면 string을 반환
-\
