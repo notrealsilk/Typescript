@@ -2,7 +2,15 @@
 
 ## 1. 유틸리티 타입 소개
 
+- 개발 중, 자주 사용하는 타입을 미리 정의 한 것
+
+- 사용자 정의 유틸리티 타입 정의도 가능 
+
+## 1. 맵드 타입 기반의 유틸리티 타입 1 - Partial, Required, Readonly
+
 ### 1) Partial<T> (부분적인 속성)
+
+- 특정 객체 타입의 모든 속성을 선택적 프로터피로 바꿔줌
 
 ```ts
 // 특정 객체 타입의 모든 프로퍼티를 선택적(?) 프로퍼티로 변경하는 타입
@@ -27,6 +35,8 @@ const draft: Partial<Post> = {
 ✔ 초기 값이 없는 상태의 객체를 다룰 때 유용
 
 ### 2) Required<T> (모든 속성을 필수로 변경)
+
+- 특정 객체 타입을 필수 프로퍼티로 바꿔주는 타입
 
 ```ts
 // 특정 객체 타입의 모든 프로퍼티를 필수(-?)로 변경하는 타입
@@ -67,12 +77,13 @@ const readonlyPost: Readonly<Post> = {
 ✔ 불변성(Immutable) 객체를 다룰 때 유용
 
 
-## 2. 맵드 타입 기반의 유틸리티 타입1
+## 3. 맵드 타입 기반의 유틸리티 타입 2 - Pick, Omit, Record
 
 ### 1) Pick<T, K> (특정 속성만 선택)
 
 ```ts
 // 객체 타입에서 특정 프로퍼티만 골라내는 타입
+// 타입 변수의 k의 타입을 제한함
 type Pick<T, K extends keyof T> = {
   [key in K]: T[key];
 };
@@ -85,6 +96,7 @@ interface Post {
 }
 
 // title과 content만 선택
+// pick을 사용해서 post에서 타이틀과 컨텐츠 프로퍼티만 사용할게 ~~
 const legacyPost: Pick<Post, "title" | "content"> = {
   title: "옛날 글",
   content: "옛날 컨텐츠",
@@ -93,6 +105,7 @@ const legacyPost: Pick<Post, "title" | "content"> = {
 ```
 
 ✔ Pick<T, K>를 사용하면 필요한 속성만 선택적으로 사용할 수 있음
+
 ✔ API 응답에서 일부 속성만 선택할 때 유용
 
 ### 2) Omit<T, K> (특정 속성 제외)
@@ -110,6 +123,7 @@ const noTitlePost: Omit<Post, "title"> = {
 
 ```
 ✔ Omit<T, K>를 사용하면 특정 속성을 제외하고 나머지 속성만 유지 가능
+
 ✔ 보안 이슈로 특정 데이터를 제외하고 응답할 때 유용
 
 ### 3) Record<K, V> (객체 타입 매핑)
@@ -130,7 +144,7 @@ type Thumbnail = Record<
 ✔ Record<K, V>를 사용하면 객체의 키와 값 타입을 동적으로 설정 가능
 ✔ 기존 객체의 구조를 유지하면서 값을 변환할 때 유용
 
-## 3. 맵드 타입 기반의 유틸리티 타입 2
+## 4. 조건부 타입 기반의 유틸리티 타입
 
 ### 1) Exclude<T, U> (제외)
 
@@ -190,18 +204,3 @@ type ReturnB = ReturnType<typeof funcB>; // 10 → number
 ✔ ReturnType<T>를 사용하면 함수의 반환값 타입을 추출할 수 있음
 ✔ 예: API 응답 타입을 자동으로 추출할 때 유용
 
-
-
-## 4. 조건부 타입 기반의 유틸리티 타입
-
-### 1)
-
-```ts
-
-```
-
-### 2)
-
-```ts
-
-```
