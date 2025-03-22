@@ -24,7 +24,7 @@ export default function Editor(props: EditorProps) {
 
   return (
     <div>
-      {/* input 태그의 value 속성에 text 상태를 할당하면 text에 저장됨 */}
+      {/* input 태그의 value 속성에 text 상태를 할당하면 text에 저장 */}
       <input value={text} onChange={onChangeInput} />
       <button onClick={onClickButton}>추가</button>
     </div>
