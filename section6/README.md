@@ -1,5 +1,9 @@
 # 클래스
 
+- JS 클래스 문서
+
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Classes
+
 ## 1. 자바스크립트의 클래스 소개
 
 - 클래스 : 객체를 생성하기 위한 템플릿
@@ -15,10 +19,12 @@
 ### 1) 클래스 없이 객체를 직접 만든 경우
 
 ```ts
+// 객체
 let studentA = {
   name: "이정환",
   grade: "A+",
   age: 27,
+  // 메서드
   study() {
     console.log("열심히 공부 함");
   },
@@ -33,6 +39,7 @@ let studentA = {
 ### 2) 클래스 사용 – 생성자와 메서드 정의
 
 ```ts
+// 클래스 선언 -> 파스칼
 class Student {
   // 필드
   name;
@@ -41,6 +48,7 @@ class Student {
 
   // 생성자
   constructor(name, grade, age) {
+    // this -> 클래스가 만들고 있는 객체
     this.name = name;
     this.grade = grade;
     this.age = age;
@@ -57,6 +65,7 @@ class Student {
 }
 
 // 클래스 인스턴스 생성
+// `new 클래스 이름` : 클랙스로 객체 생성 = 인스턴스 생성
 const studentB = new Student("홍길동", "A+", 27);
 studentB.study();       // 열심히 공부 함
 studentB.introduce();   // 안녕하세요 홍길동 입니다!
@@ -127,6 +136,7 @@ class Employee {
   position: string;
 
   // 생성자
+  // `생성자 안에서 타입의 값을 명시`하면 클래스 필드에서 값이 없다고 오류가 나던 것이 사라짐
   constructor(name: string, age: number, position: string) {
     this.name = name;
     this.age = age;
@@ -182,10 +192,12 @@ const employeeC: Employee = {
 ✔ 구조만 맞춘다면 new 없이도 객체를 만들 수 있음
 ✔ 하지만 메서드 로직이나 캡슐화는 클래스 인스턴스에서만 보장됨
 
+
 ## 3. 접근 제어자
 
-- TS 클래스에서는 접근 제어자를 사용해 클래스의 속성과 메서드의 외부 접근 가능 여부를 제어 가능
+- TS 클래스에서는 `접근 제어자`를 사용해 클래스의 속성과 메서드의 외부 접근 가능 여부를 제어 가능
 
+- 주의 - 생성자에 접근 제어자 쓸 때는, 필드에서는 정의 생략 해야 ㅇ
 - public	: 기본값. 어디서든 접근 가능
 
 - protected	: 클래스 내부 + 자식 클래스에서만 접근 가능 (외부 접근 x)
@@ -248,15 +260,15 @@ employee.position = "디자이너"; // ✅ public → 접근 가능
 console.log(employee); // { position: '디자이너' }
 
 ```
-
 ✔ position은 public이므로 외부 수정 가능
 ✔ name, age는 접근 제한으로 인해 외부에서 접근 불가능
+
 
 ## 4. 인터페이스와 클래스
 
 - **인터페이스를 구현(implements)**함으로써, 정해진 구조(계약서)를 따르도록 강제
 
-- interface : 클래스가 따라야 할 규칙(속성과 메서드 명세) 정의
+- interface : 클래스가 따라야 할 규칙(속성과 메서드 명세) 정의, public으로 정의됨
 
 - implements :	클래스가 인터페이스를 구현할 때 사용
 
@@ -281,6 +293,7 @@ interface CharacterInterface {
 ### 2) 클래스에서 인터페이스 구현
 
 ```ts
+// 캐릭터 클래스가 CharacterInterface(=설계도)를 구현한다
 class Character implements CharacterInterface {
   constructor(
     public name: string,
