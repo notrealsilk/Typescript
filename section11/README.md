@@ -21,6 +21,71 @@
   - 예)) Reaxt Router DOM (페이지 이동 관련)
 
 
-
 ## 2. 타입스크립트 템플릿 소개
 
+### 1. 프로젝트 생성
+
+- CRA (Create React App) 방식
+    
+    ```bash
+    npx create-react-app . --template typescript
+    ```
+    
+- **최근 권장 방식 - Vite 사용**
+    
+    ```bash
+    npm create vite@latest
+    ```
+    
+    - 프로젝트 이름 입력
+    - 프레임워크 선택: `React`
+    - Variant 선택: `TypeScript`
+
+---
+
+### 2. 타입 선언 패키지 설치 (CRA 방식일 경우 직접 설치 필요)
+
+```bash
+npm i @types/node @types/react @types/react-dom @types/jest
+```
+
+> Vite + React + TS 템플릿은 기본적으로 포함되어 있음
+> 
+
+---
+
+### 3. tsconfig.json 설정
+
+```json
+{
+  "compilerOptions": {
+    // 변환할 JavaScript 버전 (ES5: 구형 브라우저 호환을 위해 사용 가능)
+    "target": "ES5",
+
+    // 사용할 모듈 시스템 (CommonJS: Node.js에서 사용되는 방식)
+    "module": "CommonJS",
+
+    // 엄격한 타입 검사 활성화 (타입 안정성을 높여줌)
+    "strict": true,
+
+    // JS 파일도 함께 컴파일할 수 있게 허용
+    "allowJs": true,
+
+    // ES6 모듈을 CommonJS처럼 import/export 할 수 있게 허용
+    "esModuleInterop": true,
+
+    // JSX를 React 방식으로 변환 (React 17+에서는 "react-jsx" 사용 권장)
+    "jsx": "react-jsx"
+  },
+
+  // TypeScript가 포함할 파일들의 범위 지정 (src 폴더 내부만 검사)
+  "include": ["src"]
+}
+```
+
+---
+
+### 4. 파일 확장자 변경
+
+- 기존 `.jsx` → `.tsx`로 변경
+- 개별 컴포넌트 파일들도 `.tsx`로 변경 필요
