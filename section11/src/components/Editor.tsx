@@ -1,4 +1,5 @@
 import React, {useState } from 'react';
+import { useTodoDispatch } from '../App';
 
 // props의 타입 정의
 interface EditorProps {
@@ -6,6 +7,9 @@ interface EditorProps {
 }
 
 export default function Editor(props: EditorProps) {
+
+    const dispatch = useTodoDispatch();
+
     // useState = 제네릭 함수
     // useState의 인자로는 상태의 초기값을 전달..()에 아무 값도 없으면 undefined으로 추론됨
     // 즉, useState() 인자의 초기값으로 '' 와 같이 인자를 할당을 권장
@@ -17,7 +21,7 @@ export default function Editor(props: EditorProps) {
     };
 
     const onClickButton = () => {
-      props.onClickAdd(text);
+      dispatch?.onClickAdd(text);
       // 입력창 초기화
       setText('');  
     };
